@@ -17,6 +17,7 @@ import { API_URL } from "../components/constant";
 
 interface Profile {
   name: string;
+  profileLink: string;
 }
 
 const Profile = () => {
@@ -48,14 +49,16 @@ const Profile = () => {
   const profileLink = `https://example.com/profile/${nanoid()}`;
 
   const handleCopyLink = () => {
-    navigator.clipboard
-      .writeText(profileLink)
-      .then(() => {
-        console.log("Profile link copied to clipboard");
-      })
-      .catch((error) => {
-        console.error("Error copying profile link:", error);
-      });
+    if (profile) {
+      navigator.clipboard
+        .writeText(profile.profileLink)
+        .then(() => {
+          console.log("Profile link copied to clipboard");
+        })
+        .catch((error) => {
+          console.error("Error copying profile link:", error);
+        });
+    }
   };
 
   const handleShareOnWhatsApp = () => {
@@ -73,12 +76,14 @@ const Profile = () => {
           {profile ? `${profile.name}'s Profile` : <Loader />}
         </h1>
 
-        <div className="flex justify-center items-center border border-white my-4 px-2 max-w-[80%]">
+        <div className="flex justify-center items-center border border-white my-4 px-2 max-w-[75%]">
           <Link
-            href={profileLink}
-            className="flex items-center justify-center max-w-[80%] text-sm py-2 mr-5" 
+            href={`/writeMessage?profileLink=${encodeURIComponent(
+              profileLink
+            )}`}
+            className="text-sm"
           >
-            {profileLink}
+              {profileLink}
           </Link>
           <button
             className="flex rounded-md justify-center pl-2"
