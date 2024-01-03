@@ -1,17 +1,7 @@
 import Link from "next/link";
 import React from "react";
-// import { useState } from "react";
-
-// import { FiMenu } from 'react-icons/fi';
 
 const LandingPage = () => {
-
-  // const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  // const handleMenuToggle = () => {
-  //   setIsMenuOpen(!isMenuOpen);
-  // };
-
 
   return (
     <div className="bg-green text-cream min-h-screen">
