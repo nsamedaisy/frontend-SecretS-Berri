@@ -13,11 +13,11 @@ import {
 } from "react-icons/fa";
 import { FiSettings } from "react-icons/fi";
 import Loader from "../components/loader";
+import { API_URL } from "../components/constant";
 
 interface Profile {
   name: string;
 }
-
 
 const Profile = () => {
   const [profile, setProfile] = useState<Profile | null>(null);
@@ -26,7 +26,13 @@ const Profile = () => {
   useEffect(() => {
     const fetchProfileData = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/profile");
+        const accessToken =
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1O…Tc5fQ.DWV-bWtUS3bFYDafkXcjNIYKr4RQk-5d0WqfRMs3r7M";
+        const response = await axios.get(API_URL + "/profile", {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
         const data = response.data;
 
         setProfile(data);
@@ -38,12 +44,12 @@ const Profile = () => {
     fetchProfileData();
   }, []);
 
-
   // Generate the unique profile link (you can use a library like nanoid)
   const profileLink = `https://example.com/profile/${nanoid()}`;
 
   const handleCopyLink = () => {
-    navigator.clipboard.writeText(profileLink)
+    navigator.clipboard
+      .writeText(profileLink)
       .then(() => {
         console.log("Profile link copied to clipboard");
       })
@@ -51,7 +57,7 @@ const Profile = () => {
         console.error("Error copying profile link:", error);
       });
   };
-  
+
   const handleShareOnWhatsApp = () => {
     // Logic to open WhatsApp with the profile link
     const whatsappUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(
@@ -62,23 +68,23 @@ const Profile = () => {
 
   return (
     <div className="bg-gradient-to-tr from-green to-cream text-white min-h-screen bg-gradie flex items-center justify-center">
-      <div className="w-[30%] sm:w-[30%] h-[45%] py-10 rounded shadow-2xl px-9 bg-gradient-to-tr from-cream to-green items-center flex flex-col">
+      <div className="w-[40%] sm:w-[30%] h-[45%] py-10 rounded shadow-2xl px-9 bg-gradient-to-tr from-cream to-green items-center flex flex-col">
         <h1 className="text-5xl font-extrabold font-sans items-center">
           {profile ? `${profile.name}'s Profile` : <Loader />}
         </h1>
 
-        <div className="flex justify-center items-center">
+        <div className="flex justify-center items-center border border-white my-4 max-w-fit">
           <Link
             href={profileLink}
-            className="flex items-center text-lg py-6 font-bold"
+            className="flex items-center justify-center max-w-[100%] px-4 text-sm py-2"
           >
-            Generated Link
+            {profileLink}
           </Link>
           <button
-            className="flex rounded-md justify-center py-2 pl-4"
+            className="flex rounded-md justify-center pl-2"
             onClick={handleCopyLink}
           >
-            <FaRegCopy className="w-6 h-6 mr-3" />
+            <FaRegCopy className="w-6 h-4 mr-3" />
           </button>
         </div>
 

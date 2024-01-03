@@ -20,17 +20,17 @@ const WriteSecretMessage = () => {
     return () => clearTimeout(timer);
   }, [success]);
 
-  const sendMessage = () => {
+  const sendMessage = async () => {
     if (message.trim() === "") {
       return;
     }
-    setSuccess(true);
-    // try {
-    //   await axios.post("/api/messages", { message });
-    //   setSuccess(true);
-    // } catch (error) {
-    //   console.error("Error sending message:", error);
-    // }
+    // setSuccess(true);
+    try {
+      await axios.post("/api/messages", { message });
+      setSuccess(true);
+    } catch (error) {
+      console.error("Error sending message:", error);
+    }
   };
 
   const handleCancel = () => {
