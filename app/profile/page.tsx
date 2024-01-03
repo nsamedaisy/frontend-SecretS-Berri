@@ -27,7 +27,7 @@ const Profile = () => {
     const fetchProfileData = async () => {
       try {
         const accessToken =
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1O…Tc5fQ.DWV-bWtUS3bFYDafkXcjNIYKr4RQk-5d0WqfRMs3r7M";
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1OTU4YjRmYTk0M2ZmZmZlNTU1MzUwZiIsImlhdCI6MTcwNDI5OTM0MywiZXhwIjoxNzA0NTU4NTQzfQ.v1ibenTsz37L3uFYwPkMS0kjIQU6rffRbgQIJPsg2RA";
         const response = await axios.get(API_URL + "/profile", {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -73,10 +73,10 @@ const Profile = () => {
           {profile ? `${profile.name}'s Profile` : <Loader />}
         </h1>
 
-        <div className="flex justify-center items-center border border-white my-4 max-w-fit">
+        <div className="flex justify-center items-center border border-white my-4 px-2 max-w-[80%]">
           <Link
             href={profileLink}
-            className="flex items-center justify-center max-w-[100%] px-4 text-sm py-2"
+            className="flex items-center justify-center max-w-[80%] text-sm py-2 mr-5" 
           >
             {profileLink}
           </Link>
@@ -84,7 +84,7 @@ const Profile = () => {
             className="flex rounded-md justify-center pl-2"
             onClick={handleCopyLink}
           >
-            <FaRegCopy className="w-6 h-4 mr-3" />
+            <FaRegCopy className="w-6 h-4" />
           </button>
         </div>
 
