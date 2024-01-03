@@ -6,6 +6,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { FaApple, FaLockOpen, FaTimes } from "react-icons/fa";
 import Loader from "../components/loader";
+import { API_URL } from "../components/constant";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -19,7 +20,7 @@ const Register = () => {
     setIsLoading(true);
 
     try {
-      const response = await axios.post("http://localhost:3000/auth/signup", {
+      const response = await axios.post(API_URL + "/auth/signup", {
         name,
         email,
         password,
