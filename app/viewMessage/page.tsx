@@ -30,11 +30,10 @@ const ViewSecretMessage = () => {
     };
 
     fetchMessages();
-  }, []);
+  }, [messages]);
 
   const handleLoadMore = async () => {
     setIsLoading(true);
-
     try {
       const response = await axios.get(API_URL + "/api/messages");
       const data = response.data;
@@ -43,12 +42,11 @@ const ViewSecretMessage = () => {
     } catch (error) {
       console.error("Error loading more messages:", error);
     }
-
     setIsLoading(false);
   };
 
   return (
-    <div className="bg-gradient-to-tr from-green to-cream text-white min-h-screen bg-gradie flex items-center justify-center">
+    <div className="bg-gradient-to-tr from-green to-cream text-white min-h-screen flex items-center justify-center">
       <div className="w-[30%] sm:w-[30%] h-[45%] py-10 rounded shadow-2xl px-9 bg-gradient-to-tr from-cream to-green items-center flex flex-col">
         <h1 className="text-4xl font-extrabold text-cream items-center">
           My SecretScribe 😅
@@ -58,24 +56,33 @@ const ViewSecretMessage = () => {
         </p>
 
         <div className="w-[20vw]">
-          <fieldset className="border-2 border-cream rounded p-4">
-            <legend className="text-sm font-semibold">Messages:</legend>
+          <div>
             {messages.length > 0 ? (
               messages.map((message, index) => (
-                <div className="flex flex-col mt-2" key={index}>
+                <fieldset
+                  className="border-2 border-gray-300 rounded p-4 mt-4"
+                  key={index}
+                >
+                  <legend className="text-xs font-semibold">
+                    Message {index + 1}:
+                  </legend>
                   <p className="text-base">{message.content}</p>
                   <p className="text-sm mt-4">_anonymous {message.timeSent}</p>
                   <button className="border rounded-xl mt-3 py-1">
                     ✨ Share response ✨
                   </button>
-                </div>
+                </fieldset>
               ))
             ) : (
               <fieldset className="border-2 hidden border-red-600 text-red-700 font-bold rounded p-3 mt-3">
-            <p> Sorry 😔 you haven't recieve any message in the past 48hours. Share your link to yours friends to get secret message(s)</p>
-            </fieldset>
+                <p>
+                  Sorry 😔 You haven't received any messages in the past 48
+                  hours. Share your link with your friends to get secret
+                  message(s).
+                </p>
+              </fieldset>
             )}
-          </fieldset>
+          </div>
 
           {isEndOfMessages ? (
             <fieldset className="border-2 border-cream text-green font-bold rounded p-3 mt-3">
@@ -121,8 +128,8 @@ const ViewSecretMessage = () => {
 
 export default ViewSecretMessage;
 
-
-{/* 
+{
+  /* 
 import React from "react";
 import Link from "next/link";
 
@@ -182,4 +189,5 @@ const viewSecretMessage = () => {
   );
 };
 
-export default viewSecretMessage; */}
+export default viewSecretMessage; */
+}
