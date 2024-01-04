@@ -6,6 +6,8 @@ import { FaArrowLeft } from "react-icons/fa";
 import Link from "next/link";
 import { API_URL } from "../components/constant";
 import Loader from "../components/loader";
+import { io } from "socket.io-client";
+import { Socket } from "socket.io-client";
 
 interface Message {
   content: string;
@@ -16,29 +18,59 @@ const ViewSecretMessage = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isEndOfMessages, setIsEndOfMessages] = useState(false);
+  const [socket, setSocket] = useState<Socket | null>(null);  // Declare socket using useState
 
   useEffect(() => {
-    const fetchMessages = async () => {
-      try {
-        const response = await axios.get(API_URL + "/api/messages");
-        const data = response.data;
-        setMessages(data.messages);
-        setIsEndOfMessages(data.messages.length === 0);
-      } catch (error) {
-        console.error("Error fetching messages:", error);
-      }
+    const socket = io(API_URL); // Create a socket connection
+
+    // Listen for the "message" event from the server
+    socket.on("message", (message: Message) => {
+      setMessages((prevMessages) => [message, ...prevMessages]); // Add the new message to the beginning of the messages array
+    });
+
+    return () => {
+      socket.disconnect(); // Disconnect the socket when the component is unmounted
     };
+  }, []);
 
-    fetchMessages();
-  }, [messages]);
-
-  const handleLoadMore = async () => {
-    setIsLoading(true);
+  // useEffect(() => {
+  const fetchMessages = async () => {
     try {
       const response = await axios.get(API_URL + "/api/messages");
       const data = response.data;
-      setMessages((prevMessages) => [...prevMessages, ...data.messages]);
+      setMessages(data.messages);
       setIsEndOfMessages(data.messages.length === 0);
+    } catch (error) {
+      console.error("Error fetching messages:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchMessages();
+  }, []);
+
+  useEffect(() => {
+    // Fetch messages again when navigating back from writeMessage page
+    const handleRouteChange = () => {
+      fetchMessages();
+    };
+
+    // Subscribe to the router events
+    window.addEventListener("popstate", handleRouteChange);
+
+    // Clean up the event listener
+    return () => {
+      window.removeEventListener("popstate", handleRouteChange);
+    };
+  }, []);
+
+  const handleLoadMore = () => {
+    setIsLoading(true);
+    try {
+      if (socket) {
+        // Check if socket is not null before emitting the event
+        socket.emit("loadMore");
+      }
     } catch (error) {
       console.error("Error loading more messages:", error);
     }
