@@ -21,8 +21,7 @@ interface Profile {
 }
 
 const Profile = () => {
-  const [profile, setProfile] = useState<Profile | null>(null);
-  // Initialize profile as null or with an appropriate type
+  const [profile, setProfile] = useState<Profile | null>({ name: "", profileLink: "" });
 
   useEffect(() => {
     const fetchProfileData = async () => {
@@ -35,8 +34,12 @@ const Profile = () => {
           },
         });
         const data = response.data;
-
-        setProfile(data);
+        const profileData: Profile = {
+          name: data.name,
+          profileLink: `https://example.com/profile/${nanoid()}`,
+        };
+    
+        setProfile(profileData);
       } catch (error) {
         console.error("Error fetching profile data:", error);
       }
@@ -45,13 +48,15 @@ const Profile = () => {
     fetchProfileData();
   }, []);
 
+
   // Generate the unique profile link (you can use a library like nanoid)
-  const profileLink = `https://example.com/profile/${nanoid()}`;
+  const profileLink = profile ? `https://example.com/profile/${nanoid()}` : "";
 
   const handleCopyLink = () => {
     if (profile) {
+      const linkToCopy = profileLink;
       navigator.clipboard
-        .writeText(profile.profileLink)
+        .writeText(linkToCopy)
         .then(() => {
           console.log("Profile link copied to clipboard");
         })
@@ -76,12 +81,12 @@ const Profile = () => {
           {profile ? `${profile.name}'s Profile` : <Loader />}
         </h1>
 
-        <div className="flex justify-center items-center border border-white my-4 px-2 max-w-[75%]">
+        <div className="flex justify-center items-center my-4 px-2 max-w-[75%]">
           <Link
             href={`/writeMessage?profileLink=${encodeURIComponent(
               profileLink
             )}`}
-            className="text-sm"
+            className="text-sm py-2 px-6"
           >
               {profileLink}
           </Link>
@@ -89,7 +94,7 @@ const Profile = () => {
             className="flex rounded-md justify-center pl-2"
             onClick={handleCopyLink}
           >
-            <FaRegCopy className="w-6 h-4" />
+            <FaRegCopy className="w-6 h-6" />
           </button>
         </div>
 
@@ -102,7 +107,7 @@ const Profile = () => {
 
         <section className="flex flex-col space-y-6 mt-8 text-white font-extrabold font-lobster mb-5">
           <Link
-            href="/viewMessages"
+            href="/viewMessage"
             className="flex rounded-md justify-center bg-gradient-to-tr from-green to-cream items-center w-[20vw] border-2 border-green py-2 pl-4"
           >
             View Messages <FaArrowRight className="ml-3" />

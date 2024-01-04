@@ -4,6 +4,8 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { MdSend } from "react-icons/md";
 import axios from "axios";
+import { API_URL } from "../components/constant";
+
 
 const WriteSecretMessage = () => {
   const [message, setMessage] = useState("");
@@ -26,7 +28,7 @@ const WriteSecretMessage = () => {
     }
     // setSuccess(true);
     try {
-      await axios.post("/api/messages", { message });
+      await axios.post(API_URL + "/api/messages", { message });
       setSuccess(true);
     } catch (error) {
       console.error("Error sending message:", error);
