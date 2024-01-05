@@ -49,20 +49,20 @@ const ViewSecretMessage = () => {
     fetchMessages();
   }, []);
 
-  useEffect(() => {
-    // Fetch messages again when navigating back from writeMessage page
-    const handleRouteChange = () => {
-      fetchMessages();
-    };
+  // useEffect(() => {
+  //   // Fetch messages again when navigating back from writeMessage page
+  //   const handleRouteChange = () => {
+  //     fetchMessages();
+  //   };
 
-    // Subscribe to the router events
-    window.addEventListener("popstate", handleRouteChange);
+  //   // Subscribe to the router events
+  //   window.addEventListener("popstate", handleRouteChange);
 
-    // Clean up the event listener
-    return () => {
-      window.removeEventListener("popstate", handleRouteChange);
-    };
-  }, []);
+  //   // Clean up the event listener
+  //   return () => {
+  //     window.removeEventListener("popstate", handleRouteChange);
+  //   };
+  // }, []);
 
   const handleLoadMore = () => {
     setIsLoading(true);
@@ -129,7 +129,6 @@ const ViewSecretMessage = () => {
               onClick={handleLoadMore}
               disabled={isLoading}
             >
-              {/* <img src="/time.png" alt="time logo" className="w-8 h-6 mr-3" /> */}
               {isLoading ? <Loader /> : "Load More"}
             </button>
           )}

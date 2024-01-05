@@ -10,7 +10,7 @@ const LandingPage = () => {
       <header className="px-4 py-4 flex justify-between items-center sm:px-8 md:px-16 lg:px-60 shadow-[rgba(0,0,0,0.5)_7px_5px_3px_0px] fixed w-full bg-green z-40">
           <div className="flex items-center">
             <img src="/sslogo.png" alt="SecretScribe Logo" className="hidden md:block w-16 h-16 lg:block bg-gray-800" />
-            <h1 className="hidden sm:block text-5xl font-extrabold font-marker">ecretScribe</h1>
+            <h1 className="hidden sm:block text-3xl text-white font-extrabold font-marker">ecretScribe</h1>
           </div>
           <nav className="font-mono hidden sm:block">
             <ul className="flex justify-end space-x-8">
@@ -49,16 +49,16 @@ const LandingPage = () => {
             className="mt-10 h-[55vh] mx-auto"
           />
           <div>
-            <p className="text-center mt-16 text-3xl font-poppins">Anonymously</p>
-            <p className="mt-6 text-7xl font-extrabold font-marker text-cream text-center">
+            <p className="text-center mt-16 text-3xl font-serif">Anonymously</p>
+            <p className="mt-6 text-6xl font-extrabold font-marker text-cream text-center">
               Share Thoughts, and Confessions In Secrets.
             </p>
           </div>
         </section>
       </div>
      
-      <section className="py-20 px-4 sm:px-8 md:px-16 lg:px-60 bg-cream text-gray-800">
-        <h2 className="text-5xl font-extrabold font-abril pb-20 leading-relaxed">
+      <section className="py-20 px-4 sm:px-8 md:px-16 lg:px-60 bg-cream text-gray-700">
+        <h2 className="text-5xl font-extrabold font-abril pb-20 leading-normal">
           SecretScribe is an interactive anonymous messaging app. Create your Profile Link and Send it to all your contacts to check what do your friends think about you. SecretScribe is free!
         </h2>
         <div className="flex flex-col sm:flex-row items-center">
@@ -78,7 +78,7 @@ const LandingPage = () => {
       </section>
 
       <section className="text-center py-14 border-b overflow-x-hidden">
-        <p className="text-4xl font-marker text-white font-extrabold mb-4 animate-slide-in-right">
+        <p className="text-3xl font-marker text-white font-extrabold mb-4 animate-slide-in-right">
           Type your message anonymously, Submit your message and let others discover it, Choose a category for your message,.
         </p>
       </section>
