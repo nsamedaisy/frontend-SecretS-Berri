@@ -1,8 +1,8 @@
 "use client";
 
+import { API_URL } from "../components/constant";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import axios from "axios";
 import { nanoid } from "nanoid";
 import {
   FaArrowRight,
@@ -13,32 +13,28 @@ import {
 } from "react-icons/fa";
 import { FiSettings } from "react-icons/fi";
 import Loader from "../components/loader";
-import { API_URL } from "../components/constant";
 
 interface Profile {
   name: string;
-  profileLink: string;
 }
 
 const Profile = () => {
-  const [profile, setProfile] = useState<Profile | null>({ name: "", profileLink: "" });
+  const [profile, setProfile] = useState<Profile | null>(null);
 
   useEffect(() => {
+    // Simulating API call to fetch profile data
     const fetchProfileData = async () => {
       try {
-        const accessToken =
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1OTU4YjRmYTk0M2ZmZmZlNTU1MzUwZiIsImlhdCI6MTcwNDI5OTM0MywiZXhwIjoxNzA0NTU4NTQzfQ.v1ibenTsz37L3uFYwPkMS0kjIQU6rffRbgQIJPsg2RA";
-        const response = await axios.get(API_URL + "/profile", {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        });
-        const data = response.data;
+        // Call your API to fetch the profile data
+        const response = await fetch(API_URL + "/profile");
+        const data = await response.json();
+
+        console.log("API Response:", data); // Log the API response
+
         const profileData: Profile = {
           name: data.name,
-          profileLink: `https://example.com/profile/${nanoid()}`,
         };
-    
+
         setProfile(profileData);
       } catch (error) {
         console.error("Error fetching profile data:", error);
@@ -47,7 +43,6 @@ const Profile = () => {
 
     fetchProfileData();
   }, []);
-
 
   // Generate the unique profile link (you can use a library like nanoid)
   const profileLink = profile ? `https://example.com/profile/${nanoid()}` : "";
@@ -78,7 +73,7 @@ const Profile = () => {
     <div className="bg-gradient-to-tr from-green to-cream text-white min-h-screen bg-gradie flex items-center justify-center">
       <div className="w-[40%] sm:w-[30%] h-[45%] py-10 rounded shadow-2xl px-9 bg-gradient-to-tr from-cream to-green items-center flex flex-col">
         <h1 className="text-5xl font-extrabold font-sans items-center">
-          {profile ? `${profile.name}'s Profile` : <Loader />}
+          {profile ? `Enjoy ${profile.name}` : <Loader />}
         </h1>
 
         <div className="flex justify-center items-center my-4 px-2 max-w-[75%]">
@@ -88,7 +83,7 @@ const Profile = () => {
             )}`}
             className="text-sm py-2 px-6"
           >
-              {profileLink}
+            {profileLink}
           </Link>
           <button
             className="flex rounded-md justify-center pl-2"
