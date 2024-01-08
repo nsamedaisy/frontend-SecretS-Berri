@@ -5,8 +5,8 @@ import Link from "next/link";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { FaApple, FaLockOpen, FaTimes } from "react-icons/fa";
-import Loader from "../components/loader";
-import { API_URL } from "../components/constant";
+import Loader from "../_core/components/loader";
+import { API_URL } from "../_core/components/constant";
 
 const Register = () => {
   const [name, setName] = useState("");
@@ -18,24 +18,33 @@ const Register = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
-
+  
     try {
       const response = await axios.post(API_URL + "/auth/signup", {
         name,
         email,
         password,
       });
-
-      // Store the token and user data in local storage
-      localStorage.setItem("token", response.data.token);
-      localStorage.setItem("user", JSON.stringify(response.data.user));
-
+  
+      if (typeof window !== 'undefined') {
+        const localStorage = window.localStorage as Storage;
+  
+        // Store the token and user data in local storage
+        localStorage.setItem("token", response.data.token);
+      }
+  
       // Redirect to the dashboard upon successful registration
       router.push("/profile");
     } catch (error: any) {
+      // Handle error
       console.error(error?.response?.data); // Error message from the backend
-      // Handle error or display error message to the user
-      console.log({ username: name, email: email, password: password })
+  
+      // Display error message to the user
+      if (error?.response?.data?.message) {
+        alert(error.response.data.message);
+      } else {
+        alert("An error occurred during registration.");
+      }
     } finally {
       setIsLoading(false);
     }

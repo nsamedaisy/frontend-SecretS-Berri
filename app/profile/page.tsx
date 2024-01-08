@@ -1,6 +1,6 @@
 "use client";
 
-import { API_URL } from "../components/constant";
+import { API_URL } from "../_core/components/constant";
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { nanoid } from "nanoid";
@@ -12,13 +12,20 @@ import {
   FaEnvelope,
 } from "react-icons/fa";
 import { FiSettings } from "react-icons/fi";
-import Loader from "../components/loader";
+import Loader from "../_core/components/loader";
+import CurrentUserGuard from "../_core/guards/CurrentUserGuard";
+import { Iuser } from "../_core/services/interfaces/entities";
 
 interface Profile {
   name: string;
 }
 
-const Profile = () => {
+interface Props {
+  currentUser: Iuser;
+}
+
+const Profile = ({ currentUser }: Props) => {
+  console.log({ currentUser })
   const [profile, setProfile] = useState<Profile | null>(null);
   // const user = JSON.parse(localStorage.getItem("user"));
 
@@ -55,6 +62,8 @@ const Profile = () => {
         .writeText(linkToCopy)
         .then(() => {
           console.log("Profile link copied to clipboard");
+          // Show a success popup
+          alert("Link copied successfully!");
         })
         .catch((error) => {
           console.error("Error copying profile link:", error);
@@ -74,7 +83,7 @@ const Profile = () => {
     <div className="bg-gradient-to-tr from-green to-cream text-white min-h-screen bg-gradie flex items-center justify-center">
       <div className="w-[40%] sm:w-[30%] h-[45%] py-10 rounded shadow-2xl px-9 bg-gradient-to-tr from-cream to-green items-center flex flex-col">
         <h1 className="text-5xl font-extrabold font-sans items-center">
-          {profile ? `Enjoy ${profile.name}` : <Loader />}
+          {profile ? `Enjoy ${currentUser.name}` : <Loader />}
         </h1>
 
         <div className="flex justify-center items-center my-4 px-2 max-w-[75%]">
@@ -148,4 +157,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default CurrentUserGuard(Profile);

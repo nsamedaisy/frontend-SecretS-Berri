@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { MdSend } from "react-icons/md";
 import axios from "axios";
-import { API_URL } from "../components/constant";
+import { API_URL } from "../_core/components/constant";
 
 
 const WriteSecretMessage = () => {

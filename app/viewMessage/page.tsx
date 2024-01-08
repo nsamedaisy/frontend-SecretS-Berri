@@ -4,8 +4,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FaArrowLeft } from "react-icons/fa";
 import Link from "next/link";
-import { API_URL } from "../components/constant";
-import Loader from "../components/loader";
+import { API_URL } from "../_core/components/constant";
+import Loader from "../_core/components/loader";
 import { io } from "socket.io-client";
 import { Socket } from "socket.io-client";
 
