@@ -20,6 +20,7 @@ interface Profile {
 
 const Profile = () => {
   const [profile, setProfile] = useState<Profile | null>(null);
+  // const user = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
     // Simulating API call to fetch profile data

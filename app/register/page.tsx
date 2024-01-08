@@ -14,50 +14,46 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const [profile, setProfile] = useState(null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
-  
+
     try {
       const response = await axios.post(API_URL + "/auth/signup", {
         name,
         email,
         password,
       });
-  
-      // Store the token in local storage
+
+      // Store the token and user data in local storage
       localStorage.setItem("token", response.data.token);
-  
-      console.log(response.data); // Success message or response from the backend
-  
-      // Set the profile data in state
-      setProfile(response.data.profile);
-  
-      // Redirect to the profile page upon successful registration
+      localStorage.setItem("user", JSON.stringify(response.data.user));
+
+      // Redirect to the dashboard upon successful registration
       router.push("/profile");
     } catch (error: any) {
       console.error(error?.response?.data); // Error message from the backend
       // Handle error or display error message to the user
+      console.log({ username: name, email: email, password: password })
     } finally {
       setIsLoading(false);
     }
   };
 
   // Function to generate a random token
-  const generateToken = () => {
-    // Generate a random string of characters
-    const characters =
-      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  // const generateToken = () => {
+  //   // Generate a random string of characters
+  //   const characters =
+  //     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
-    let token = "";
-    for (let i = 0; i < 10; i++) {
-      token += characters.charAt(Math.floor(Math.random() * characters.length));
-    }
+  //   let token = "";
+  //   for (let i = 0; i < 10; i++) {
+  //     token += characters.charAt(Math.floor(Math.random() * characters.length));
+  //   }
 
-    return token;
-  };
+  //   return token;
+  // };
 
   return (
     <div className="bg-gradient-to-tr from-green to-cream text-black min-h-screen bg-gradie flex items-center justify-center">
