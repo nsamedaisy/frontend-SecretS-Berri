@@ -18,27 +18,26 @@ const Register = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
-  
+
     try {
       const response = await axios.post(API_URL + "/auth/signup", {
         name,
         email,
         password,
       });
-  
+
       if (typeof window !== 'undefined') {
         const localStorage = window.localStorage as Storage;
-  
+
         // Store the token and user data in local storage
         localStorage.setItem("token", response.data.token);
       }
-  
       // Redirect to the dashboard upon successful registration
       router.push("/profile");
     } catch (error: any) {
       // Handle error
       console.error(error?.response?.data); // Error message from the backend
-  
+
       // Display error message to the user
       if (error?.response?.data?.message) {
         alert(error.response.data.message);
@@ -50,19 +49,6 @@ const Register = () => {
     }
   };
 
-  // Function to generate a random token
-  // const generateToken = () => {
-  //   // Generate a random string of characters
-  //   const characters =
-  //     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-
-  //   let token = "";
-  //   for (let i = 0; i < 10; i++) {
-  //     token += characters.charAt(Math.floor(Math.random() * characters.length));
-  //   }
-
-  //   return token;
-  // };
 
   return (
     <div className="bg-gradient-to-tr from-green to-cream text-black min-h-screen bg-gradie flex items-center justify-center">

@@ -102,7 +102,7 @@ const ViewSecretMessage = () => {
                   <legend className="text-xs font-semibold">
                     Message {index + 1}:
                   </legend>
-                  <p className="text-base font-bold text-white">
+                  <p className="text-base font-extrabold text-green">
                     {message.content}
                   </p>
                   <p className="text-sm mt-4">_anonymous {message.timeSent}</p>
@@ -152,7 +152,7 @@ const ViewSecretMessage = () => {
           )}
         </div>
 
-        <p className="border-b-2 w-[20vw]"></p>
+        <p className="border-b-2 w-[20vw] mt-4"></p>
 
         <Link
           href="/profile"
